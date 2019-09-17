@@ -287,12 +287,15 @@ static NSString *MMDrawerOpenSideKey = @"MMDrawerOpenSide";
         [self openDrawerSide:drawerSide animated:animated completion:completion];
     }
     else {
-		if((drawerSide == MMDrawerSideLeft && self.openSide == MMDrawerSideLeft) || (drawerSide == MMDrawerSideRight && self.openSide == MMDrawerSideRight)){
+        if((drawerSide == MMDrawerSideLeft &&
+            self.openSide == MMDrawerSideLeft) ||
+           (drawerSide == MMDrawerSideRight &&
+            self.openSide == MMDrawerSideRight)){
 			[self closeDrawerSide:drawerSide animated:animated completion:completion];
-		}
-		else if(completion){
-			completion(NO);
-		}
+           }
+        else if(completion){
+            completion(NO);
+        }
     }
 }
 
