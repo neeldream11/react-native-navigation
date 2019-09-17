@@ -44,6 +44,7 @@
 	else if ([animationType isEqualToString:@"parallax"]) animationTypeStateBlock = [MMDrawerVisualState parallaxVisualStateBlockWithParallaxFactor:2.0];
 	else if ([animationType isEqualToString:@"slide"]) animationTypeStateBlock = [MMDrawerVisualState slideVisualStateBlock];
 	else if ([animationType isEqualToString:@"slide-and-scale"]) animationTypeStateBlock = [MMDrawerVisualState slideAndScaleVisualStateBlock];
+	else if ([animationType isEqualToString:@"slide-overlay"]) animationTypeStateBlock = [MMDrawerVisualState slideOverlayBlock];
 	
 	if (animationTypeStateBlock) {
 		[self setDrawerVisualStateBlock:animationTypeStateBlock];
@@ -77,7 +78,7 @@
 }
 
 -(void)hideSideMenu:(MMDrawerSide)side animated:(BOOL)animated {
-	[self closeDrawerAnimated:animated completion:nil];
+	[self closeDrawerSide:side animated:animated completion:nil];
 }
 
 - (void)side:(MMDrawerSide)side enabled:(BOOL)enabled {

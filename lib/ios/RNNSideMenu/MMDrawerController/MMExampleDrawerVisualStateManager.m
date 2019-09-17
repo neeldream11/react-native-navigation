@@ -60,6 +60,9 @@
         case MMDrawerAnimationTypeSwingingDoor:
             visualStateBlock = [MMDrawerVisualState swingingDoorVisualStateBlock];
             break;
+		case MMDrawerAnimationTypeSlideOverlay:
+			visualStateBlock = [MMDrawerVisualState slideOverlayBlock];
+			break;
         default:
             visualStateBlock =  ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
                 

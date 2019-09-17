@@ -26,6 +26,7 @@
 +(MMDrawerControllerDrawerVisualStateBlock)slideAndScaleVisualStateBlock{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+		[MMDrawerVisualState updateCenterViewControllerFrameWith:drawerController drawerSide:drawerSide percentVisible:percentVisible];
         CGFloat minScale = .90;
         CGFloat scale = minScale + (percentVisible*(1.0-minScale));
         CATransform3D scaleTransform =  CATransform3DMakeScale(scale, scale, scale);
@@ -57,6 +58,7 @@
 +(MMDrawerControllerDrawerVisualStateBlock)swingingDoorVisualStateBlock{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+		[MMDrawerVisualState updateCenterViewControllerFrameWith:drawerController drawerSide:drawerSide percentVisible:percentVisible];
         UIViewController * sideDrawerViewController;
         CGPoint anchorPoint;
         CGFloat maxDrawerWidth = 0.0;
@@ -116,6 +118,7 @@
 +(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor{
     MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
     ^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+		[MMDrawerVisualState updateCenterViewControllerFrameWith:drawerController drawerSide:drawerSide percentVisible:percentVisible];
         NSParameterAssert(parallaxFactor >= 1.0);
         CATransform3D transform = CATransform3DIdentity;
         UIViewController * sideDrawerViewController;
@@ -145,6 +148,61 @@
         [sideDrawerViewController.view.layer setTransform:transform];
     };
     return visualStateBlock;
+}
+
++(MMDrawerControllerDrawerVisualStateBlock)slideOverlayBlock{
+	MMDrawerControllerDrawerVisualStateBlock visualStateBlock =
+	^(MMDrawerController * drawerController, MMDrawerSide drawerSide, CGFloat percentVisible){
+		CGFloat parallaxFactor = 1.0;
+		NSParameterAssert(parallaxFactor >= 1.0);
+		CATransform3D transform = CATransform3DIdentity;
+		UIViewController * sideDrawerViewController;
+		if(drawerSide == MMDrawerSideLeft) {
+			sideDrawerViewController = drawerController.leftDrawerViewController;
+			CGFloat distance = MAX(drawerController.maximumLeftDrawerWidth,drawerController.visibleLeftDrawerWidth);
+			if (percentVisible <= 1.f) {
+				transform = CATransform3DMakeTranslation((-distance)/parallaxFactor+(distance*percentVisible/parallaxFactor), 0.0, 0.0);
+			}
+			else{
+				transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+				transform = CATransform3DTranslate(transform, drawerController.maximumLeftDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+			}
+		}
+		else if(drawerSide == MMDrawerSideRight){
+			sideDrawerViewController = drawerController.rightDrawerViewController;
+			CGFloat distance = MAX(drawerController.maximumRightDrawerWidth,drawerController.visibleRightDrawerWidth);
+			if(percentVisible <= 1.f){
+				transform = CATransform3DMakeTranslation((distance)/parallaxFactor-(distance*percentVisible)/parallaxFactor, 0.0, 0.0);
+			}
+			else{
+				transform = CATransform3DMakeScale(percentVisible, 1.f, 1.f);
+				transform = CATransform3DTranslate(transform, -drawerController.maximumRightDrawerWidth*(percentVisible-1.f)/2, 0.f, 0.f);
+			}
+		}
+		
+		[[sideDrawerViewController.view superview] bringSubviewToFront:sideDrawerViewController.view];
+		[sideDrawerViewController.view.layer setTransform:transform];
+	};
+	return visualStateBlock;
+}
+
+/* To update frame for center view controller */
++(void)updateCenterViewControllerFrameWith:(MMDrawerController *)drawerController drawerSide:(MMDrawerSide)drawerSide percentVisible:(CGFloat) percentVisible{
+	CGRect newFrame;
+	if(drawerSide == MMDrawerSideLeft){
+		newFrame = drawerController.centerViewController.view.frame;
+		newFrame.origin.x = drawerController.maximumLeftDrawerWidth;
+	}
+	else {
+		newFrame = drawerController.centerViewController.view.frame;
+		newFrame.origin.x = 0-drawerController.maximumRightDrawerWidth;
+	}
+	
+	if(percentVisible == 0.0){
+		newFrame.origin.x = 0;
+	}
+	
+	[drawerController.centerViewController.view setFrame:newFrame];
 }
 
 @end

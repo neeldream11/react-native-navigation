@@ -58,4 +58,11 @@
  */
 +(MMDrawerControllerDrawerVisualStateBlock)parallaxVisualStateBlockWithParallaxFactor:(CGFloat)parallaxFactor;
 
+/**
+ Creates a slide visual state block that gives the user an experience that it slides as an overlay on top of center view controller.
+ 
+ @return The visual state block.
+ */
+
++(MMDrawerControllerDrawerVisualStateBlock)slideOverlayBlock;
 @end
