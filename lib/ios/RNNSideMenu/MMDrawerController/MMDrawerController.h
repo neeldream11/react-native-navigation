@@ -320,7 +320,7 @@ typedef void (^MMDrawerControllerDrawerVisualStateBlock)(MMDrawerController * dr
  @param completion The block that is called when the close is complete
  
  */
--(void)closeDrawerAnimated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
+-(void)closeDrawerSide:(MMDrawerSide)drawerSide animated:(BOOL)animated completion:(void(^)(BOOL finished))completion;
 
 /**
  Opens the `drawer` passed in.

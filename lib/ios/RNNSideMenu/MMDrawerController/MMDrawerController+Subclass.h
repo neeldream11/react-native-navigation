@@ -76,7 +76,7 @@
  @param animationOptions A mask defining the animation options of the animation
  @param completion A completion block to be called when the drawer is finished closing
  */
--(void)closeDrawerAnimated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));
+-(void)closeDrawerSide:(MMDrawSide)drawerSide animated:(BOOL)animated velocity:(CGFloat)velocity animationOptions:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion __attribute((objc_requires_super));
 
 /**
  The method that handles opening the drawer. You can subclass this method to get a callback every time the drawer is about to be opened.

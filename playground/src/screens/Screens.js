@@ -50,7 +50,8 @@ module.exports = {
         },
         { marginTop: 20 }),
       center: stack(StatusBarOptions),
-      right: component(SideMenuRight)
+      right: component(SideMenuRight),
+      animationType: 'slide-overlay'
     }
   },
   StatusBarBottomTabs: {

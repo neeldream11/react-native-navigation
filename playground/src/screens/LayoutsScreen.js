@@ -74,6 +74,11 @@ class LayoutsScreen extends React.Component {
           id: 'right',
           name: Screens.SideMenuRight
         }
+      },
+      options: {
+        sideMenu: {
+          animationType: 'slide-overlay'
+        }
       }
     }
   });

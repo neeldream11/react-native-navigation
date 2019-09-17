@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, MMDrawerAnimationType){
     MMDrawerAnimationTypeSlideAndScale,
     MMDrawerAnimationTypeSwingingDoor,
     MMDrawerAnimationTypeParallax,
+	MMDrawerAnimationTypeSlideOverlay,
 };
 
 @interface MMExampleDrawerVisualStateManager : NSObject
